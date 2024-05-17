@@ -4,7 +4,9 @@ cookiecutter template for a RESTful webservice using Go, Echo and a PostgreSQL d
 
 # Usage
 
+```
 cookiecutter gh:neowinx/cookiecutter-postgres-go-echo-restful
+```
 
 # Enjoy
 
