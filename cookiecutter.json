@@ -1,5 +1,8 @@
 {
   "project_name": "My Super Project",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+  "_copy_without_render": [
+    "{{cookiecutter.project_slug}}/docs/docs.go"
+  ],
   "author": "Pedro Flores"
 }
