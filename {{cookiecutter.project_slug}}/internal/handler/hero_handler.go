@@ -56,27 +56,26 @@ func CreateHeroHandler(dbpool *pgxpool.Pool) echo.HandlerFunc {
 
 		ctx := context.Background()
 
-    var result Hero
-    var err error
-
-		// TODO: try to DRY this part
-		if hero.ID == nil {
-			result, err := db.New(dbpool).CreateHero(ctx, hero.Name)
-		} else {
-			arg := db.CreateHeroWithIDParams{
-				ID:   int32(*hero.ID),
-				Name: hero.Name,
-			}
-			result, err := db.New(dbpool).CreateHeroWithID(ctx, arg)
-		}
-
-    if err != nil {
-      return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create hero"})
+    // TODO: try to DRY this part
+    if hero.ID == nil {
+      result, err := db.New(dbpool).CreateHero(ctx, hero.Name)
+      if err != nil {
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create hero"})
+      }
+      return c.JSON(http.StatusCreated, result)
+    } else {
+      arg := db.CreateHeroWithIDParams{
+        ID:   int32(*hero.ID),
+        Name: hero.Name,
+      }
+      result, err := db.New(dbpool).CreateHeroWithID(ctx, arg)
+      if err != nil {
+        return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create hero"})
+      }
+      return c.JSON(http.StatusCreated, result)
     }
-    return c.JSON(http.StatusCreated, result)
-	}
+  }
 }
-
 // GetHeroHandler retrieves a hero by ID.
 //
 //	@Summary		Get a hero by ID
