@@ -1,4 +1,4 @@
-module postgres-go-echo-htmx-bulma
+module {{cookiecutter.project_slug}}
 
 go 1.21.6
 

@@ -5,11 +5,11 @@ import (
 	"github.com/swaggo/echo-swagger"
 	"log"
 	"os"
-	"postgres-go-echo-htmx-bulma/internal/handler"
+	"{{cookiecutter.project_slug}}/internal/handler"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
-	_ "postgres-go-echo-htmx-bulma/docs"
+	_ "{{cookiecutter.project_slug}}/docs"
 )
 
 //	@title			Super API
