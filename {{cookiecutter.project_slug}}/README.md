@@ -1,5 +1,13 @@
 # postgres-go-echo-restful
 
+# {{ cookiecutter.project_name }}
+
+## Selected Tables
+
+{% for table in cookiecutter.selected_tables %}
+- {{ table }}
+{% endfor %}
+
 A small skeleton project for a RESTful API using Go with Echo that uses a PostgreSQL database under the hood
 
 ## Requirements

@@ -1,0 +1,9 @@
+blessed==1.20.0
+editor==1.6.6
+inquirer==3.2.4
+psycopg2-binary==2.9.9
+readchar==4.1.0
+runs==1.2.2
+six==1.16.0
+wcwidth==0.2.13
+xmod==1.8.1
