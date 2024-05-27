@@ -1,0 +1,25 @@
+{
+  "configurations": {
+    "run": {
+      "adapter": "debugpy",
+      "configuration": {
+        "request": "launch",
+        "type": "python",
+        "cwd": "${workspaceRoot}",
+        "python": "./venv/bin/python",
+        "program": "main.py",
+        "stopOnEntry": false,
+        "console": "integratedTerminal"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "",
+          "userUnhandled": ""
+        }
+      }
+    }
+  }
+}
+
+// vim: ft=jsonc

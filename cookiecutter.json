@@ -1,14 +1,26 @@
 {
-  "project_name": "My Super Project",
-  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-  "author": "Pedro Flores",
-  "_copy_without_render": [
-    "{{cookiecutter.project_slug}}/docs/docs.go"
-  ],
-  "postgresql_host": "localhost",
-  "postgresql_port": "5432",
-  "postgresql_db": "super",
-  "postgresql_user": "postgres",
-  "postgresql_password": "postgres",
-  "selected_tables": ["hero"]
+    "project_name": "My Super Project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "author": "Pedro Flores",
+    "_copy_without_render": [
+        "{{cookiecutter.project_slug}}/docs/docs.go"
+    ],
+    "postgresql_host": "localhost",
+    "postgresql_port": "5432",
+    "postgresql_db": "super",
+    "postgresql_user": "postgres",
+    "postgresql_password": "postgres",
+    "selected_tables": [
+        "hero",
+        "association_universe",
+        "universe",
+        "hero_power",
+        "hero_universe",
+        "era",
+        "user",
+        "power",
+        "universe_era",
+        "association",
+        "hero_association"
+    ]
 }
