@@ -44,7 +44,8 @@ def main():
     answers = inquirer.prompt(questions)
 
     if not answers:
-        raise Exception("No answers returned from inquirer!! Panicking.")
+        print("No answers returned. Exiting.")
+        exit(1)
 
     host = answers["postgresql_host"]
     port = answers["postgresql_port"]
@@ -65,7 +66,8 @@ def main():
     answers = inquirer.prompt(questions)
 
     if not answers:
-        raise Exception("No answers returned from inquirer!! Panicking.")
+        print("No answers returned. Exiting.")
+        exit(2)
     
     # Update context with selected tables
     context['selected_tables'] = answers['selected_tables'] if answers['selected_tables'] else ["placeholder"]
