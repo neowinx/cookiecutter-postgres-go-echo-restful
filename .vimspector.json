@@ -7,7 +7,7 @@
         "type": "python",
         "cwd": "${workspaceRoot}",
         "python": "./venv/bin/python",
-        "program": "main.py",
+        "program": "${file}",
         "stopOnEntry": false,
         "console": "integratedTerminal"
       },

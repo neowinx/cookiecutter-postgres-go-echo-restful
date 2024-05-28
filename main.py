@@ -34,7 +34,7 @@ def main():
         context = json.load(f)
 
     questions = [
-        inquirer.Text('postgresql_host', default="postgres"),
+        inquirer.Text('postgresql_host', default="localhost"),
         inquirer.Text('postgresql_port', default=5432),
         inquirer.Text('postgresql_db', default="super"),
         inquirer.Text('postgresql_user', default="postgres"),
@@ -42,6 +42,9 @@ def main():
     ]
 
     answers = inquirer.prompt(questions)
+
+    if not answers:
+        raise Exception("No answers returned from inquirer!! Panicking.")
 
     host = answers["postgresql_host"]
     port = answers["postgresql_port"]
@@ -60,6 +63,9 @@ def main():
     ]
 
     answers = inquirer.prompt(questions)
+
+    if not answers:
+        raise Exception("No answers returned from inquirer!! Panicking.")
     
     # Update context with selected tables
     context['selected_tables'] = answers['selected_tables'] if answers['selected_tables'] else ["placeholder"]
