@@ -26,20 +26,22 @@ def get_postgresql_tables(host, port, db, user, password):
     connection.close()
     return tables
 
+
+IGNORED_FIELDS = [ "project_slug", "author", "_copy_without_render", "selected_tables" ] 
+
+
 def main():
     # Load cookiecutter.json to get initial values
     COOKIE_CUTTER_JSON = os.path.join(HOOK_PATH, 'cookiecutter.json')
 
     with open(COOKIE_CUTTER_JSON) as f:
-        context = json.load(f)
+        context: dict = json.load(f)
 
-    questions = [
-        inquirer.Text('postgresql_host', default="localhost"),
-        inquirer.Text('postgresql_port', default=5432),
-        inquirer.Text('postgresql_db', default="super"),
-        inquirer.Text('postgresql_user', default="postgres"),
-        inquirer.Text('postgresql_password', default="postgres"),
-    ]
+    questions = []
+
+    for key in context.keys():
+        if key not in IGNORED_FIELDS:
+            questions.append(inquirer.Text(f'{key}', default=context.get(key), message=f'Ingrese el {key}'))
 
     answers = inquirer.prompt(questions)
 

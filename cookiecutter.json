@@ -10,6 +10,7 @@
     "postgresql_db": "super",
     "postgresql_user": "postgres",
     "postgresql_password": "postgres",
+    "postgresql_schema": "public",
     "selected_tables": [
         "hero",
         "association_universe",
