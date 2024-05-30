@@ -29,7 +29,7 @@ def get_postgresql_tables(host, port, db, user, password):
     return tables
 
 
-IGNORED_FIELDS = [ "project_slug", "author", "_copy_without_render", "selected_tables" ] 
+IGNORED_FIELDS = [ "project_slug", "author", "_copy_without_render", "selected_tables", "table" ] 
 
 
 def main():
@@ -83,6 +83,16 @@ def main():
     print("Processing template...")
 
     cookiecutter(template=HOOK_PATH, no_input=True, overwrite_if_exists=True)
+
+    print("generated. Processing tables...")
+
+    # repeat the template processing for each table but pass the "skip_if_file_exists" attribute
+    # in order to generate the individual files
+
+    for table in context["selected_tables"]["values"]:
+        cookiecutter(template=HOOK_PATH, no_input=True, overwrite_if_exists=True, skip_if_file_exists=True, extra_context={
+            "table": table
+        })
 
     print("done.")
 

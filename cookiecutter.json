@@ -2,8 +2,10 @@
     "project_name": "My Super Project",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "author": "Pedro Flores",
+    "table": "",
     "_copy_without_render": [
-        "{{cookiecutter.project_slug}}/docs/docs.go"
+        "{{cookiecutter.project_slug}}/docs/docs.go",
+        "{{cookiecutter.table}}_handler.go"
     ],
     "postgresql_host": "localhost",
     "postgresql_port": "5432",
