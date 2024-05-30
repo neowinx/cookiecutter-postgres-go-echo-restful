@@ -11,17 +11,19 @@
     "postgresql_user": "postgres",
     "postgresql_password": "postgres",
     "postgresql_schema": "public",
-    "selected_tables": [
-        "hero",
-        "association_universe",
-        "universe",
-        "hero_power",
-        "hero_universe",
-        "era",
-        "user",
-        "power",
-        "universe_era",
-        "association",
-        "hero_association"
-    ]
+    "selected_tables": {
+        "values": [
+            "hero",
+            "association_universe",
+            "universe",
+            "hero_power",
+            "hero_universe",
+            "era",
+            "user",
+            "power",
+            "universe_era",
+            "association",
+            "hero_association"
+        ]
+    }
 }

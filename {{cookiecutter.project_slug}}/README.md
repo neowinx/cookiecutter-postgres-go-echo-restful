@@ -4,7 +4,9 @@
 
 ## Selected Tables
 
-{% for table in cookiecutter.selected_tables %}
+{{ cookiecutter.selected_tables }}
+
+{% for table in cookiecutter.selected_tables["values"] %}
 - {{ table }}
 {% endfor %}
 

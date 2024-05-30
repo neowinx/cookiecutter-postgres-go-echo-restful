@@ -5,6 +5,8 @@ import inquirer
 import json
 import os
 
+from cookiecutter.main import cookiecutter
+
 HOOK_PATH=os.path.dirname(__file__)
 
 def get_postgresql_tables(host, port, db, user, password):
@@ -71,12 +73,18 @@ def main():
         print("No answers returned. Exiting.")
         exit(2)
     
-    # Update context with selected tables
-    context['selected_tables'] = answers['selected_tables'] if answers['selected_tables'] else ["placeholder"]
-    
+    if answers['selected_tables']:
+        context["selected_tables"]["values"] = answers['selected_tables']
+
     # Write the updated context back to cookiecutter.json
     with open(COOKIE_CUTTER_JSON, 'w') as f:
         json.dump(context, f, indent=4)
+
+    print("Processing template...")
+
+    cookiecutter(template=HOOK_PATH, no_input=True, overwrite_if_exists=True)
+
+    print("done.")
 
 if __name__ == "__main__":
     main()
