@@ -5,8 +5,8 @@
       "configuration": {
         "request": "launch",
         "type": "python",
-        "cwd": "${workspaceRoot}",
-        "python": "./venv/bin/python",
+        "cwd": "${HOME}/PROJECTS/NEOWINX/GENERATED",
+        "python": "${workspaceFolder}/venv/bin/python",
         "program": "${file}",
         "stopOnEntry": false,
         "console": "integratedTerminal"
