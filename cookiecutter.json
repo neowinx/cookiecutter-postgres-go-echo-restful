@@ -27,8 +27,13 @@
         ]
     },
     "table": "",
-    "table_pascal_case": "",
+    "table_pascalcase": "",
+    "table_snakecase": "",
     "columns": {
         "values": []
+    },
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
     }
 }
