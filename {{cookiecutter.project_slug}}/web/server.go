@@ -65,9 +65,12 @@ func main() {
 // Initialize handlers and pass dbpool to them
 func initHandlers(e *echo.Echo, dbpool *pgxpool.Pool) {
 	// Create handlers and pass dbpool to them
-	e.GET("/heroes", handler.ListHeroHandler(dbpool))
-	e.POST("/heroes", handler.CreateHeroHandler(dbpool))
-	e.GET("/heroes/:id", handler.GetHeroHandler(dbpool))
-	e.PUT("/heroes/:id", handler.UpdateHeroHandler(dbpool))
-	e.DELETE("/heroes/:id", handler.DeleteHeroHandler(dbpool))
+{% for table in cookiecutter.tables["values"] %}
+	// {{table["table_pascalcase"]}}
+	e.GET("/{{table["table_snakecase"]}}s", handler.List{{table["table_pascalcase"]}}Handler(dbpool))
+	e.POST("/{{table["table_snakecase"]}}s", handler.Create{{table["table_pascalcase"]}}Handler(dbpool))
+	e.GET("/{{table["table_snakecase"]}}s/:id", handler.Get{{table["table_pascalcase"]}}Handler(dbpool))
+	e.PUT("/{{table["table_snakecase"]}}s/:id", handler.Update{{table["table_pascalcase"]}}Handler(dbpool))
+	e.DELETE("/{{table["table_snakecase"]}}s/:id", handler.Delete{{table["table_pascalcase"]}}Handler(dbpool))
+{% endfor %}
 }

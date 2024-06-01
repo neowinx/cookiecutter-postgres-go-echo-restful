@@ -26,6 +26,9 @@
             "hero_association"
         ]
     },
+    "tables": {
+        "values": []
+    },
     "table": "",
     "table_pascalcase": "",
     "table_snakecase": "",
