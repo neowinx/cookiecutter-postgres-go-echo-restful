@@ -13,7 +13,8 @@ import (
 
 // {{cookiecutter.table_pascal_case}} represents the {{cookiecutter.table_pascal_case}} model.
 type {{cookiecutter.table_pascal_case}} struct {
-{% for col in columns %}
+{{cookiecutter.columns}}
+{% for col in cookiecutter.columns["values"] %}
   {{col['column_name']}}   *{{col['data_type']}}
 {% endfor %}
 	ID   *int   `json:"id,omitempty"`

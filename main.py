@@ -8,7 +8,13 @@ from caseconverter import camelcase, pascalcase
 
 from cookiecutter.main import cookiecutter
 
-HOOK_PATH=os.path.dirname(__file__)
+import argparse
+
+parser = argparse.ArgumentParser(description="Cookiecutter template for a RESTFul app using postgresql and echo")
+parser.add_argument('-f', '--overwrite-if-exists', 'Overwrite the contents of the output directory')
+
+TMP_PATH=os.path.dirname(__file__)
+IGNORED_FIELDS = [ "project_slug", "author", "_copy_without_render", "selected_tables", "table", "table_pascal_case", "columns" ]
 
 def get_postgresql_tables(host, port, db, user, password, schema):
     connection = psycopg2.connect(
@@ -60,12 +66,9 @@ def get_columns_info(host, port, db, user, password, schema, table):
     return columns
 
 
-IGNORED_FIELDS = [ "project_slug", "author", "_copy_without_render", "selected_tables", "table" ] 
-
-
 def main():
     # Load cookiecutter.json to get initial values
-    COOKIE_CUTTER_JSON = os.path.join(HOOK_PATH, 'cookiecutter.json')
+    COOKIE_CUTTER_JSON = os.path.join(TMP_PATH, 'cookiecutter.json')
 
     with open(COOKIE_CUTTER_JSON) as f:
         context: dict = json.load(f)
@@ -114,7 +117,7 @@ def main():
 
     print("Processing template...")
 
-    cookiecutter(template=HOOK_PATH, no_input=True, overwrite_if_exists=True)
+    cookiecutter(template=TMP_PATH, no_input=True, overwrite_if_exists=True)
 
     print("generated. Processing tables...")
 
@@ -123,11 +126,11 @@ def main():
 
     for table in context["selected_tables"]["values"]:
         columns = get_columns_info(host, port, db, user, password, schema, table)
-        cookiecutter(template=HOOK_PATH, no_input=True, overwrite_if_exists=True, skip_if_file_exists=True, extra_context={
+        cookiecutter(template=TMP_PATH, no_input=True, overwrite_if_exists=False, extra_context={
             "table": table,
             "table_camel_case": camelcase(table),
             "table_pascal_case": pascalcase(table),
-            "columns": columns
+            "columns": { "values": columns }
         })
 
     print("done.")
