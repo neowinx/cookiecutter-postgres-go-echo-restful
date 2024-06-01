@@ -11,7 +11,7 @@ from cookiecutter.main import cookiecutter
 import argparse
 
 parser = argparse.ArgumentParser(description="Cookiecutter template for a RESTFul app using postgresql and echo")
-parser.add_argument('-f', '--overwrite-if-exists', 'Overwrite the contents of the output directory')
+parser.add_argument('-f', '--overwrite-if-exists', help='Overwrite the contents of the output directory')
 
 TMP_PATH=os.path.dirname(__file__)
 IGNORED_FIELDS = [ "project_slug", "author", "_copy_without_render", "selected_tables", "table", "table_pascal_case", "columns" ]
@@ -126,12 +126,13 @@ def main():
 
     for table in context["selected_tables"]["values"]:
         columns = get_columns_info(host, port, db, user, password, schema, table)
-        cookiecutter(template=TMP_PATH, no_input=True, overwrite_if_exists=False, extra_context={
-            "table": table,
-            "table_camel_case": camelcase(table),
-            "table_pascal_case": pascalcase(table),
-            "columns": { "values": columns }
-        })
+        cookiecutter(template=f"{TMP_PATH}/per_table_templates", no_input=True, overwrite_if_exists=True, skip_if_file_exists=True,
+                     extra_context={
+                         "table": table,
+                         "table_camel_case": camelcase(table),
+                         "table_pascal_case": pascalcase(table),
+                         "columns": { "values": columns }
+                     })
 
     print("done.")
 
