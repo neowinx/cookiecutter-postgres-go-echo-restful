@@ -1,34 +1,81 @@
--- name: GetHero :one
-SELECT * FROM hero
-WHERE id = $1 LIMIT 1;
+{% for table in cookiecutter.tables["values"] %}
 
--- name: ListHeros :many
-SELECT * FROM hero
-ORDER BY name;
+-- name: Get{{table["table_pascalcase"]}} :one
+SELECT * FROM "{{table["table_snakecase"]}}"
+WHERE "id" = $1 LIMIT 1;
 
--- name: CreateHeroWithID :one
-INSERT INTO hero (
-  id,
-  name
+-- name: List{{table["table_pascalcase"]}}s :many
+SELECT * FROM "{{table["table_snakecase"]}}"
+ORDER BY "{{table["columns"][0]["column_name_snakecase"]}}";
+
+-- name: Create{{table["table_pascalcase"]}}WithID :one
+INSERT INTO "{{table["table_snakecase"]}}" (
+{% for col in table["columns"] %}
+  {% if loop.last %}
+  "{{col["column_name_snakecase"]}}"
+  {% else %}
+  "{{col["column_name_snakecase"]}}",
+  {% endif %}
+{% endfor %}
 ) VALUES (
-  $1,
-  $2
+{% for col in table["columns"] %}
+  {% if loop.last %}
+  ${{ loop.index }}
+  {% else %}
+  ${{ loop.index }},
+  {% endif %}
+{% endfor %}
 )
 RETURNING *;
 
--- name: CreateHero :one
-INSERT INTO hero (
-  name
+-- name: Create{{table["table_pascalcase"]}} :one
+INSERT INTO "{{table["table_snakecase"]}}" (
+{% for col in table["columns"] %}
+  {% if not col["primary_key"] %}
+    {% if loop.last %}
+  "{{col["column_name_snakecase"]}}"
+    {% else %}
+  "{{col["column_name_snakecase"]}}",
+    {% endif %}
+  {% endif %}
+{% endfor %}
 ) VALUES (
-  $1
+{% for col in table["columns"] %}
+  {% if not col["primary_key"] %}
+    {% if loop.last %}
+  ${{ loop.index0 }}
+    {% else %}
+  ${{ loop.index0 }},
+    {% endif %}
+  {% endif %}
+{% endfor %}
 )
 RETURNING *;
 
--- name: UpdateHero :exec
-UPDATE hero
-  set name = $2
-WHERE id = $1;
+-- name: Update{{table["table_pascalcase"]}} :exec
+UPDATE "{{table["table_snakecase"]}}"
+  SET
+{% for col in table["columns"] %}
+  {% if not col["primary_key"] %}
+    {% if loop.last %}
+  "{{col["column_name_snakecase"]}}" = ${{loop.index}}
+    {% else %}
+  "{{col["column_name_snakecase"]}}" = ${{loop.index}},
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% for col in table["columns"] %}
+  {% if col["primary_key"] %}
+WHERE {{col["column_name_snakecase"]}} = ${{loop.index}};
+  {% endif %}
+{% endfor %}
 
--- name: DeleteHero :exec
-DELETE FROM hero
-WHERE id = $1;
+-- name: Delete{{table["table_pascalcase"]}} :exec
+DELETE FROM "{{table["table_snakecase"]}}"
+{% for col in table["columns"] %}
+  {% if col["primary_key"] %}
+WHERE "{{col["column_name_snakecase"]}}" = ${{loop.index}};
+  {% endif %}
+{% endfor %}
+
+{% endfor %}
