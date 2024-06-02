@@ -62,15 +62,25 @@ func Create{{cookiecutter.table_pascalcase}}Handler(dbpool *pgxpool.Pool) echo.H
 
     // TODO: try to DRY this part
     if {{cookiecutter.table_snakecase}}.ID == nil {
-      result, err := db.New(dbpool).Create{{cookiecutter.table_pascalcase}}(ctx, {{cookiecutter.table_snakecase}}.Name)
+      arg := db.Create{{cookiecutter.table_pascalcase}}Params {
+        {% for col in cookiecutter.columns["values"] %}
+          {% if not col["primary_key"] %}
+        {{ col["column_name_pascalcase"] }}:  {{ col["go_data_type"] }}(*&{{cookiecutter.table_snakecase}}.{{col["column_name_pascalcase"]}}),
+          {% endif %}
+        {% endfor %}
+      }
+      result, err := db.New(dbpool).Create{{cookiecutter.table_pascalcase}}(ctx, arg)
       if err != nil {
         return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create {{cookiecutter.table_snakecase}}"})
       }
       return c.JSON(http.StatusCreated, result)
     } else {
       arg := db.Create{{cookiecutter.table_pascalcase}}WithIDParams{
-        ID:   int32(*{{cookiecutter.table_snakecase}}.ID),
-        Name: {{cookiecutter.table_snakecase}}.Name,
+        {% for col in cookiecutter.columns["values"] %}
+          {% if not col["primary_key"] %}
+        {{ col["column_name_pascalcase"] }}:  {{ col["go_data_type"] }}(*&{{cookiecutter.table_snakecase}}.{{col["column_name_pascalcase"]}}),
+          {% endif %}
+        {% endfor %}
       }
       result, err := db.New(dbpool).Create{{cookiecutter.table_pascalcase}}WithID(ctx, arg)
       if err != nil {

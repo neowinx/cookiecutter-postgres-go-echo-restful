@@ -47,7 +47,7 @@ def get_postgresql_tables(host, port, db, user, password, schema):
 
 def to_go_data_type(postgres_data_type: str):
    match postgres_data_type:
-       case 'integer': return 'int'
+       case 'integer': return 'int32'
        case 'text': return 'string'
        case _: raise Exception("UNMAPPED DATA_TYPE! {postgres_data_type}")
 
