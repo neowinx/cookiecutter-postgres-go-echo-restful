@@ -14,16 +14,16 @@
     "selected_tables": {
         "values": [
             "hero",
-            "association_universe",
-            "universe",
             "hero_power",
+            "association_universe",
             "hero_universe",
             "era",
-            "user",
             "power",
-            "universe_era",
+            "user",
             "association",
-            "hero_association"
+            "hero_association",
+            "universe_era",
+            "universe"
         ]
     },
     "tables": {
