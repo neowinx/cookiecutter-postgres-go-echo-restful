@@ -1,5 +1,3 @@
-# postgres-go-echo-restful
-
 # {{ cookiecutter.project_name }}
 
 ## Selected Tables
@@ -20,27 +18,36 @@ A small skeleton project for a RESTful API using Go with Echo that uses a Postgr
 ```shell
 git clone git@github.com:neowinx/postgres-go-echo-restful.git
 cd postgres-go-echo-htmx-bulma
-go build
 ```
 
 ## How to use
 
-Once you've build the project just run the generated `server` executable. But first you need to define
-the required DATABASE_URI env variable
+Once you've cloned the project you can run it by either...
+
+### ... compiling and running the generated binary
 
 ```shell
+go build ./web/server.go
 export DATABASE_URI="postgresql://postgres:postgres@localhost:5432/super"
 ./server
 ```
 
-or if you just want to start fideling around. Run the `web/server.go` file directly
+### ... or running it directly
 
 ```shell
 export DATABASE_URI="postgresql://postgres:postgres@localhost:5432/super"
 go run ./web/server.go
 ```
 
-and then you can go to this url to access the swagger documentation http://127.0.0.1:8080/swagger/index.html
+### ... or by using [air](https://github.com/air-verse/air)
+
+```shell
+export DATABASE_URI="postgresql://postgres:postgres@localhost:5432/super"
+air
+```
+
+and then you can go to this url to access the swagger documentation `http://127.0.0.1:8080/swagger/index.html`
+
 
 ## SQLC generation
 
