@@ -60,7 +60,9 @@ func Create{{cookiecutter.table_pascalcase}}Handler(dbpool *pgxpool.Pool) echo.H
 
 		ctx := context.Background()
 
-    // TODO: try to DRY this part
+		{% if cookiecutter.columns["values"]|length <= 2 %}
+
+		{% endif %}
     if {{cookiecutter.table_snakecase}}.ID == nil {
       arg := db.Create{{cookiecutter.table_pascalcase}}Params {
         {% for col in cookiecutter.columns["values"] %}
@@ -75,7 +77,7 @@ func Create{{cookiecutter.table_pascalcase}}Handler(dbpool *pgxpool.Pool) echo.H
       }
       return c.JSON(http.StatusCreated, result)
     } else {
-      arg := db.Create{{cookiecutter.table_pascalcase}}WithIDParams{
+      arg := db.Create{{cookiecutter.table_pascalcase}}Params{
         {% for col in cookiecutter.columns["values"] %}
           {% if not col["primary_key"] %}
         {{ col["column_name_pascalcase"] }}:  {{ col["go_data_type"] }}(*&{{cookiecutter.table_snakecase}}.{{col["column_name_pascalcase"]}}),

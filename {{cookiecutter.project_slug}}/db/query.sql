@@ -29,26 +29,16 @@ INSERT INTO "{{table["table_snakecase"]}}" (
 RETURNING *;
 
 -- name: Create{{table["table_pascalcase"]}} :one
-INSERT INTO "{{table["table_snakecase"]}}" (
-{% for col in table["columns"] %}
-  {% if not col["primary_key"] %}
-    {% if loop.last %}
-  "{{col["column_name_snakecase"]}}"
-    {% else %}
-  "{{col["column_name_snakecase"]}}",
-    {% endif %}
-  {% endif %}
-{% endfor %}
-) VALUES (
-{% for col in table["columns"] %}
-  {% if not col["primary_key"] %}
-    {% if loop.last %}
-  ${{ loop.index0 }}
-    {% else %}
-  ${{ loop.index0 }},
-    {% endif %}
-  {% endif %}
-{% endfor %}
+INSERT INTO "{{table["table_snakecase"]}}" VALUES (
+{%- for col in table["columns"] -%}
+  {%- if col["primary_key"] -%}
+  DEFAULT
+  {%- else -%}
+  @{{ col["column_name"] }}
+  {%- if col["go_data_type"] == "string" -%}::text{%- endif -%}
+  {%- endif %}
+  {%- if not loop.last %}, {% endif -%}
+{%- endfor -%}
 )
 RETURNING *;
 
