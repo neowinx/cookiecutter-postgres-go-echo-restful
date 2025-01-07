@@ -175,7 +175,9 @@ def main():
     # in order to generate the individual files
 
     for table in answers['selected_tables']:
+        print("Getting columns information...")
         columns = get_columns_info(host, port, db, user, password, schema, table)
+        print(f"Processing templates for table {table}...")
         cookiecutter(template=f"{TMP_PATH}/per_table_templates", no_input=True, overwrite_if_exists=True, skip_if_file_exists=True,
                      extra_context={
                          "table": table,

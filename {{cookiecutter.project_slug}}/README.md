@@ -65,7 +65,7 @@ The swagger documentation is generated using [swaggo](https://github.com/swaggo/
 issuing the next command in order to generate the documentation based on the comments in the go files:
 
 ```bash
-swag init -g server.go -d ./web,./internal/handler
+swag init -g server.go -d ./web,./internal
 ```
 
 NOTE: This needs to be executed everytime you need to update the swagger documentation
