@@ -9,3 +9,4 @@ sql:
       go:
         sql_package: "pgx/v5"
         out: "pkg/db"
+        # query_parameter_limit: 0
