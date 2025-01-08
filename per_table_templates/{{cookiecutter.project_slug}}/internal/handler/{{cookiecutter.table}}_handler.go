@@ -140,8 +140,13 @@ func Update{{cookiecutter.table_pascalcase}}Handler(dbpool *pgxpool.Pool) echo.H
 
 		ctx := context.Background()
 		arg := db.Update{{cookiecutter.table_pascalcase}}Params{
-			ID:   int32(id),
-			Name: updated{{cookiecutter.table_pascalcase}}.Name,
+			{% for col in cookiecutter.columns["values"] %}
+				{% if col["primary_key"]: %}
+			{{col['column_name_uppercase']}}: {{col['go_data_type']}}(id),
+				{% else %}
+			{{col['column_name_pascalcase']}}: updated{{cookiecutter.table_pascalcase}}.{{col['column_name_pascalcase']}},
+				{% endif %}
+			{% endfor %}
 		}
 		err = db.New(dbpool).Update{{cookiecutter.table_pascalcase}}(ctx, arg)
 		if err == sql.ErrNoRows {
