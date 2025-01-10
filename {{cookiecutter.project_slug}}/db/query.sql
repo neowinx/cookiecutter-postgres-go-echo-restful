@@ -30,14 +30,12 @@ RETURNING *;
 
 -- name: Create{{table["table_pascalcase"]}} :one
 INSERT INTO "{{table["table_snakecase"]}}" VALUES (
-{% set cnumber = 1 %}
 {%- for col in table["columns"] -%}
   {%- if col["primary_key"] -%}
   DEFAULT
   {%- else -%}
-  ${{ cnumber }}
+  sqlc.arg('{{ col["column_name_snakecase"] }}')
   {%- if col["go_data_type"] == "string" -%}::text{%- endif -%}
-  {%- set cnumber = cnumber + 1 -%}
   {%- endif %}
   {%- if not loop.last %}, {% endif -%}
 {%- endfor -%}

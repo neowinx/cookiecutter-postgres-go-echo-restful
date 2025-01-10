@@ -51,6 +51,18 @@ def to_go_data_type(postgres_data_type: str):
        case 'text': return 'string'
        case _: raise Exception("UNMAPPED DATA_TYPE! {postgres_data_type}")
 
+
+UPPERCASED_WORDS = [ "id" ]
+
+
+# sqlc names are generated like 'pascalcase' but with some rules with a subset of words
+# like for example "Id" uppercased to "ID" in "AccountID"
+def transform_name_to_sqlc_go(column_name):
+    words = snakecase(column_name).split("_")
+    parsed_words = map(lambda x: x.upper() if x in UPPERCASED_WORDS else pascalcase(x), words)
+    return "".join(parsed_words)
+
+
 def get_columns_info(host, port, db, user, password, schema, table):
     connection = psycopg2.connect(
         host=host,
@@ -95,6 +107,7 @@ def get_columns_info(host, port, db, user, password, schema, table):
         "column_name_uppercase": row[0].upper(),
         "column_name_pascalcase": pascalcase(row[0]),
         "column_name_snakecase": snakecase(row[0]),
+        "column_name_sqlc_go": transform_name_to_sqlc_go(row[0]),
         "data_type": row[1],
         "go_data_type": to_go_data_type(row[1]),
         "not_null": row[2],

@@ -68,7 +68,7 @@ func Create{{cookiecutter.table_pascalcase}}Handler(dbpool *pgxpool.Pool) echo.H
 		arg := db.Create{{cookiecutter.table_pascalcase}}Params {
 			{% for col in cookiecutter.columns["values"] %}
 				{% if not col["primary_key"] %}
-			{{ col["column_name_pascalcase"] }}:  {{ col["go_data_type"] }}(*&{{cookiecutter.table_snakecase}}.{{col["column_name_pascalcase"]}}),
+			{{ col["column_name_sqlc_go"] }}:  {{ col["go_data_type"] }}(*&{{cookiecutter.table_snakecase}}.{{col["column_name_pascalcase"]}}),
 				{% endif %}
 			{% endfor %}
 		}
